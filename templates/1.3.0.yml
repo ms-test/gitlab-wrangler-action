@@ -75,9 +75,9 @@ variables:
     # If a Wrangler version is detected as input
     if [ -z "$INPUT_WRANGLERVERSION" ]
     then
-      yarn global add @cloudflare/wrangler
+      yarn global add wrangler
     else
-      yarn global add "@cloudflare/wrangler@$INPUT_WRANGLERVERSION"
+      yarn global add "wrangler@$INPUT_WRANGLERVERSION"
     fi
 
     # If a working directory is detected as input
