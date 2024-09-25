@@ -12,6 +12,8 @@ variables:
 .wrangler_deploy:
   image: node:latest
   script: |
+    set -x
+    
     # Wrangler Actions for Gitlab CI/CD template
 
     export API_CREDENTIALS=""
