@@ -2,7 +2,6 @@ variables:
   INPUT_APITOKEN: $CF_API_TOKEN
   INPUT_EMAIL: $CF_EMAIL
   INPUT_APIKEY: $CF_API_KEY
-  INPUT_WRANGLERVERSION: $WRANGLER_VERSION
   INPUT_WORKINGDIRECTORY: $WORKING_DIRECTORY
   INPUT_ENVIRONMENT: $ENVIRONMENT
   INPUT_PUBLISH: $PUBLISH
@@ -11,7 +10,7 @@ variables:
   INPUT_POSTCOMMANDS: $POSTCOMMANDS
 
 .wrangler_deploy:
-  image: node:15
+  image: node:latest
   script: |
     # Wrangler Actions for Gitlab CI/CD template
 
@@ -72,14 +71,6 @@ variables:
       echo "Using $API_CREDENTIALS authentication"
     fi
 
-    # If a Wrangler version is detected as input
-    if [ -z "$INPUT_WRANGLERVERSION" ]
-    then
-      yarn global add wrangler
-    else
-      yarn global add "wrangler@$INPUT_WRANGLERVERSION"
-    fi
-
     # If a working directory is detected as input
     if [ -n "$INPUT_WORKINGDIRECTORY" ]
     then
@@ -99,18 +90,18 @@ variables:
     then
       if [ -z "$INPUT_ENVIRONMENT" ]
       then
-        wrangler publish
+        npx wrangler publish
 
         for SECRET in $INPUT_SECRETS; do
           VALUE=$(printenv "$SECRET") || secret_not_found "$SECRET"
-          echo "$VALUE" | wrangler secret put "$SECRET"
+          echo "$VALUE" | npx wrangler secret put "$SECRET"
         done
       else
-        wrangler publish -e "$INPUT_ENVIRONMENT"
+        npx wrangler publish -e "$INPUT_ENVIRONMENT"
 
         for SECRET in $INPUT_SECRETS; do
           VALUE=$(printenv "$SECRET") || secret_not_found "$SECRET"
-          echo "$VALUE" | wrangler secret put "$SECRET" --env "$INPUT_ENVIRONMENT"
+          echo "$VALUE" | npx wrangler secret put "$SECRET" --env "$INPUT_ENVIRONMENT"
         done
       fi
     fi
