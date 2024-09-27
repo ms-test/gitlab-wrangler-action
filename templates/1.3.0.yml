@@ -12,6 +12,8 @@ variables:
 .wrangler_deploy:
   image: node:latest
   script: |
+    set -x
+    
     # Wrangler Actions for Gitlab CI/CD template
 
     export API_CREDENTIALS=""
@@ -76,6 +78,8 @@ variables:
     then
       cd "$INPUT_WORKINGDIRECTORY"
     fi
+
+    npm install -D
 
     # If precommands is detected as input
     if [ -n "$INPUT_PRECOMMANDS" ]
