@@ -79,7 +79,7 @@ variables:
       cd "$INPUT_WORKINGDIRECTORY"
     fi
 
-    npm install
+    npm install -D
 
     # If precommands is detected as input
     if [ -n "$INPUT_PRECOMMANDS" ]
